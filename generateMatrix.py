@@ -11,7 +11,7 @@ x0= 5; y0= 5
 x1= y0; y1= 5
 
 # Dimensio de la submatriu
-a= 700
+a= 2
 
 # Creació de les matrius a multiplicar
 mat0 = np.random.randint(0, 10, (x0, y0))
@@ -111,9 +111,9 @@ def ordenar(results):
 
 if __name__ == '__main__':
     
-    # Comencem el timer
+    # Comencem el rellotge
     start_time=time.time()
-    # Creem els dos executors del cloud (escriure, llegir)
+    # Creem els executors del cloud
     pw = pywren.ibm_cf_executor()
     # Cridem la funcio per guardar les submatrius al IBM_COS
     pw.call_async(guardarMatriu, ['phyto.sd', 'posicio'])
@@ -121,7 +121,7 @@ if __name__ == '__main__':
 
     # Map i reduce
     pw = pywren.ibm_cf_executor()
-    matriuResu = pw.map_reduce(multiplicacio, iterdata, ordenar, map_runtime_memory=2048, reduce_runtime_memory=2048)
+    matriuResu = pw.map_reduce(multiplicacio, iterdata, ordenar)
     pw.wait(matriuResu)
     # Calculem la diferencia de temps
     elapsed_time = time.time() - start_time
